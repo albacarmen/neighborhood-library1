@@ -2,9 +2,8 @@ package com.library;
 
 import java.util.Scanner;
 
-public class LibraryApp {
-    private static Book[] inventory = new Book[20];
-    private static int bookCount = 0;
+public class NeighborhoodLibrary {
+    private static final Book[] inventory = new Book[20];
 
     public static void main(String[] args) {
         initializeBooks();
@@ -32,6 +31,74 @@ public class LibraryApp {
         inventory[17] = new Book(18, "978-0-099-52702-6", "On Seeing the 100% Perfect Girl One Beautiful April Morning");
         inventory[18] = new Book(19, "978-1-84724-377-3", "The Somnambulist and the Detective");
         inventory[19] = new Book(20, "978-0-099-52703-3", "Sputnick Sweetheart");
-        bookCount = 20;
+        int bookCount = 20;
+    }
+    private static void showHomeScreen() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("1. Show Available Books");
+            System.out.println("2. Show Checked Out Books");
+            System.out.println("3. Exit");
+            System.out.print("Select an option: ");
+            int option = scanner.nextInt();
+
+            switch (option) {
+                case 1:
+                    showAvailableBooks(scanner);
+                    break;
+                case 2:
+                    showCheckedOutBooks(scanner);
+                    break;
+                case 3:
+                    System.out.println("Goodbye!");
+                    return;
+                default:
+                    System.out.println("Invalid option, please try again.");
+            }
+        }
+    }
+    private static void showAvailableBooks(Scanner scanner) {
+        System.out.println("Available Books:");
+        for (Book book : inventory) {
+            if (book != null && !book.isCheckedOut()) {
+                System.out.printf("ID: %d, ISBN: %s, Title: %s%n", book.getId(), book.getIsbn(), book.getTitle());
+            }
+        }
+        System.out.print("Select a book ID to check out or 0 to go back: ");
+        int bookId = scanner.nextInt();
+        if (bookId > 0) {
+            System.out.print("Enter your name: ");
+            String name = scanner.next();
+            for (Book book : inventory) {
+                if (book != null && book.getId() == bookId) {
+                    book.checkOut(name);
+                    System.out.println("Book checked out successfully!");
+                    return;
+                }
+            }
+        }
     }
 
+    private static void showCheckedOutBooks(Scanner scanner) {
+        System.out.println("Checked Out Books:");
+        for (Book book : inventory) {
+            if (book != null && book.isCheckedOut()) {
+                System.out.printf("ID: %d, ISBN: %s, Title: %s, Checked Out To: %s%n",
+                        book.getId(), book.getIsbn(), book.getTitle(), book.getCheckedOutTo());
+            }
+        }
+        System.out.print("Enter 'C' to check in a book or 'X' to go back: ");
+        String input = scanner.next();
+        if (input.equalsIgnoreCase("C")) {
+            System.out.print("Enter the book ID to check in: ");
+            int bookId = scanner.nextInt();
+            for (Book book : inventory) {
+                if (book != null && book.getId() == bookId) {
+                    book.checkIn();
+                    System.out.println("Book checked in successfully!");
+                    return;
+                }
+            }
+        }
+    }
+}
