@@ -1,7 +1,12 @@
-package com.pluralsight;
+package com.library;
 
-public class NeighborhoodLibrary {
+import java.util.Scanner;
+
+public class LibraryApp {
+    private static Book[] inventory = new Book[20];
+    private static int bookCount = 0;
+
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        initializeBooks();
+        showHomeScreen();
     }
-}
