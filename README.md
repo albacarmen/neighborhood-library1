@@ -3,7 +3,7 @@
 Welcome to Carmy's Neighborhood Library app! This project helps you manage book checkouts and returns in a friendly and easy-to-use interface.
 
 ## Features
-- View available books
+- View available books (My Library only has Magical Realism Books)
 - View checked-out books
 - Check out and check in books
 - Simple navigation
